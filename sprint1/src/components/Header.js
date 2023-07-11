@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useInsertionEffect, useState } from "react";
 import styled from "styled-components";
+import Dropdown from "./Dropdown";
 import { Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { ReactComponent as LogoName } from "../assets/logoname.svg";
@@ -7,7 +8,7 @@ import { ReactComponent as DropButtonIcon } from "../assets/dropdown-button.svg"
 
 const HeaderBody = styled.div`
   width: 100vw;
-  max-hight: 80px;
+  max-height: 80px;
 
   display: flex;
   justify-content: space-between;
@@ -27,6 +28,8 @@ const LogoImg = styled(Logo)`
 `;
 
 const DropButton = styled.button`
+  width: 34px;
+
   border: 0;
   background-color: transparent;
 
@@ -36,15 +39,24 @@ const DropButton = styled.button`
 `;
 
 export default function Header() {
+  const [view, setView] = useState(false);
+
   return (
-    <HeaderBody>
-      <StyledLink to="/">
-        <LogoImg />
-        <LogoName />
-      </StyledLink>
-      <DropButton>
-        <DropButtonIcon />
-      </DropButton>
-    </HeaderBody>
+    <div>
+      <HeaderBody>
+        <StyledLink to="/">
+          <LogoImg />
+          <LogoName />
+        </StyledLink>
+        <DropButton
+          onClick={() => {
+            setView(!view);
+          }}
+        >
+          <DropButtonIcon />
+          {view && <Dropdown />}
+        </DropButton>
+      </HeaderBody>
+    </div>
   );
 }

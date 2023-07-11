@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const FooterBody = styled.div`
   width: 100vw;
-  max-hight: 58px;
+  max-height: 58px;
 
   position: fixed;
   bottom: 0;
