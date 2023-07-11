@@ -1,4 +1,4 @@
-import React, { useInsertionEffect, useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import Dropdown from "./Dropdown";
 import { Link } from "react-router-dom";
@@ -39,23 +39,35 @@ const DropButton = styled.button`
 `;
 
 export default function Header() {
-  const [view, setView] = useState(false);
+  const [drop, setDrop] = useState(false);
+  const dropMenuRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClose = (e) => {
+      if (drop && !dropMenuRef.current.contains(e.target)) setDrop(false);
+    };
+    document.addEventListener("click", handleOutsideClose);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClose);
+    };
+  }, [drop]);
 
   return (
     <div>
-      <HeaderBody>
+      <HeaderBody ref={dropMenuRef}>
         <StyledLink to="/">
           <LogoImg />
           <LogoName />
         </StyledLink>
         <DropButton
           onClick={() => {
-            setView(!view);
+            setDrop(!drop);
           }}
         >
           <DropButtonIcon />
-          {view && <Dropdown />}
         </DropButton>
+        {drop && <Dropdown />}
       </HeaderBody>
     </div>
   );
