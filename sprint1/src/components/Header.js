@@ -15,6 +15,8 @@ const HeaderBody = styled.div`
   padding: 25px 76px 25px 86px;
 
   box-shadow: 0px 8px 8px 0px rgb(0, 0, 0, 0.1);
+
+  position: fixed;
 `;
 
 const DropButton = styled.button`
