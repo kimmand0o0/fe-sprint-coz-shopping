@@ -7,6 +7,8 @@ const ItemBody = styled.li`
   width: 264px;
   height: 264px;
 
+  padding-right: 40px;
+
   display: flex;
   flex-direction: column;
 
@@ -101,8 +103,8 @@ const BookmarkButton = styled.button`
 export default function Item({ item, bookmark, handleClick }) {
   return (
     <ItemBody key={item.id} className="item">
-      <BookmarkButton onClick={(e) => handleClick(e, item.id)}>
-        {bookmark.id ? <BookmarkerOn /> : <BookmarkerOff />}
+      <BookmarkButton onClick={(e) => handleClick(e, item)}>
+        {bookmark.length ? <BookmarkerOn /> : <BookmarkerOff />}
       </BookmarkButton>
       {item.type === "Brand" && (
         <ItemImg>

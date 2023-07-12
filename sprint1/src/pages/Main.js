@@ -15,7 +15,8 @@ const MainContainer = styled.div`
 `;
 
 const ListSection = styled.section`
-  width: 80vw;
+  width: 100vw;
+  margin-left: 20vw;
 `;
 
 const ListTitle = styled.h3`
@@ -28,7 +29,7 @@ const ProductList = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: start;
   align-items: center;
 
   padding: 0;
@@ -39,10 +40,20 @@ export default function Main() {
   const [bookmark, setBookmark] = useState([]);
   const [items, setItems] = useState([]);
 
-  const handleClick = (e, id) => {
-    // 북마크가 등록 되어야함.
-    // 등록되어 있는 북마크는 삭제 되어야함.
-    // 알림이 떠야함.
+  const handleClick = (e, item) => {
+    const isBookmark = bookmark.filter((i) => i.id === item.id);
+    if (!isBookmark.length) {
+      // 북마크가 등록 되어야함.
+      setBookmark([...bookmark, item]);
+    } else {
+      // 등록되어 있는 북마크는 삭제 되어야함.
+      for (let i = 0; i < bookmark.length; i++) {
+        if (bookmark[i].id === item.id) {
+          bookmark.splice(i, 1);
+          setBookmark([...bookmark]);
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -83,20 +94,15 @@ export default function Main() {
         <ListSection>
           <ListTitle>북마크 리스트</ListTitle>
           <ProductList>
-            {items
-              .map(
-                (item, idx) =>
-                  bookmark.filter((i) => i.id === item.id) && (
-                    <Item
-                      item={item}
-                      bookmark={bookmark.filter((i) =>
-                        i.id === item.id ? true : false
-                      )}
-                      key={idx}
-                      handleClick={handleClick}
-                    />
-                  )
-              )
+            {bookmark
+              .map((item, idx) => (
+                <Item
+                  item={item}
+                  bookmark={bookmark.filter((i) => i.id === item.id)}
+                  key={idx}
+                  handleClick={handleClick}
+                />
+              ))
               .slice(0, 4)}
           </ProductList>
         </ListSection>
