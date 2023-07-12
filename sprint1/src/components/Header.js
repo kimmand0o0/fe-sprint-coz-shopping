@@ -17,6 +17,10 @@ const HeaderBody = styled.div`
 
   position: fixed;
   top: 0;
+
+  background-color: white;
+
+  z-index: 999;
 `;
 
 const StyledLink = styled(Link)`

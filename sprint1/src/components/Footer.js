@@ -14,6 +14,10 @@ const FooterBody = styled.div`
 
   border-left: 1px;
   border: solid rgb(0, 0, 0, 0.1);
+
+  background-color: white;
+
+  z-index: 999;
 `;
 
 const TextBox = styled.span`
