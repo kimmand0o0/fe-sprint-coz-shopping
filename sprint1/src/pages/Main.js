@@ -85,7 +85,7 @@ export default function Main() {
       axios
         .get("http://cozshopping.codestates-seb.link/api/v1/products", {
           params: {
-            count: 10,
+            count: 4,
           },
         })
         .then((result) => setItems(result.data))
@@ -110,19 +110,17 @@ export default function Main() {
           <ListSection>
             <ListTitle>상품 리스트</ListTitle>
             <ProductList>
-              {items
-                .map((item, idx) => (
-                  <Item
-                    item={item}
-                    bookmark={bookmark.filter((i) =>
-                      i.id === item.id ? true : false
-                    )}
-                    key={idx}
-                    handleClick={bookmarkButtonClick}
-                    modalClick={modalClick}
-                  />
-                ))
-                .slice(0, 4)}
+              {items.map((item, idx) => (
+                <Item
+                  item={item}
+                  bookmark={bookmark.filter((i) =>
+                    i.id === item.id ? true : false
+                  )}
+                  key={idx}
+                  handleClick={bookmarkButtonClick}
+                  modalClick={modalClick}
+                />
+              ))}
             </ProductList>
           </ListSection>
           <ListSection>
