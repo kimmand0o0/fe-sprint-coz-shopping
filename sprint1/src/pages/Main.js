@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Item from "../components/Item";
 
+localStorage.setItem("bookmark", JSON.stringify([]));
+
 const MainContainer = styled.div`
   width: 100vw;
 
@@ -17,6 +19,8 @@ const MainContainer = styled.div`
 const ListSection = styled.section`
   width: 100vw;
   margin-left: 20vw;
+
+  overflow-y: hidden;
 `;
 
 const ListTitle = styled.h3`
@@ -37,20 +41,24 @@ const ProductList = styled.ul`
 `;
 
 export default function Main() {
-  const [bookmark, setBookmark] = useState([]);
+  const data = JSON.parse(localStorage.getItem("bookmark"));
+
+  const [bookmark, setBookmark] = useState([...data]);
   const [items, setItems] = useState([]);
 
-  const handleClick = (e, item) => {
+  const bookmarkButtonClick = (e, item) => {
     const isBookmark = bookmark.filter((i) => i.id === item.id);
     if (!isBookmark.length) {
       // 북마크가 등록 되어야함.
       setBookmark([...bookmark, item]);
+      localStorage.setItem("bookmark", JSON.stringify([...bookmark, item]));
     } else {
       // 등록되어 있는 북마크는 삭제 되어야함.
       for (let i = 0; i < bookmark.length; i++) {
         if (bookmark[i].id === item.id) {
           bookmark.splice(i, 1);
           setBookmark([...bookmark]);
+          localStorage.setItem("bookmark", JSON.stringify([...bookmark]));
         }
       }
     }
@@ -85,7 +93,7 @@ export default function Main() {
                     i.id === item.id ? true : false
                   )}
                   key={idx}
-                  handleClick={handleClick}
+                  handleClick={bookmarkButtonClick}
                 />
               ))
               .slice(0, 4)}
@@ -100,7 +108,7 @@ export default function Main() {
                   item={item}
                   bookmark={bookmark.filter((i) => i.id === item.id)}
                   key={idx}
-                  handleClick={handleClick}
+                  handleClick={bookmarkButtonClick}
                 />
               ))
               .slice(0, 4)}
