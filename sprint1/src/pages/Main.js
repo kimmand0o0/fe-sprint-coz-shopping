@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import Item from "../components/Item";
+import Modal from "../components/ItemModal";
 
 localStorage.setItem("bookmark", JSON.stringify([]));
 
@@ -11,6 +12,12 @@ const MainContainer = styled.div`
   padding-top: 80px;
   padding-bottom: 60px;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const MainBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,6 +52,7 @@ export default function Main() {
 
   const [bookmark, setBookmark] = useState([...data]);
   const [items, setItems] = useState([]);
+  const [modal, setModal] = useState(null);
 
   const bookmarkButtonClick = (e, item) => {
     const isBookmark = bookmark.filter((i) => i.id === item.id);
@@ -62,6 +70,14 @@ export default function Main() {
         }
       }
     }
+  };
+
+  const modalClick = (e, item) => {
+    if (modal === null) setModal(item);
+  };
+
+  const modalClose = (e) => {
+    if (modal !== null) setModal(null);
   };
 
   useEffect(() => {
@@ -82,38 +98,50 @@ export default function Main() {
   return (
     <div>
       <MainContainer>
-        <ListSection>
-          <ListTitle>상품 리스트</ListTitle>
-          <ProductList>
-            {items
-              .map((item, idx) => (
-                <Item
-                  item={item}
-                  bookmark={bookmark.filter((i) =>
-                    i.id === item.id ? true : false
-                  )}
-                  key={idx}
-                  handleClick={bookmarkButtonClick}
-                />
-              ))
-              .slice(0, 4)}
-          </ProductList>
-        </ListSection>
-        <ListSection>
-          <ListTitle>북마크 리스트</ListTitle>
-          <ProductList>
-            {bookmark
-              .map((item, idx) => (
-                <Item
-                  item={item}
-                  bookmark={bookmark.filter((i) => i.id === item.id)}
-                  key={idx}
-                  handleClick={bookmarkButtonClick}
-                />
-              ))
-              .slice(0, 4)}
-          </ProductList>
-        </ListSection>
+        {modal && (
+          <Modal
+            item={modal}
+            bookmark={bookmark}
+            handleClick={bookmarkButtonClick}
+            modalClose={modalClose}
+          />
+        )}
+        <MainBody>
+          <ListSection>
+            <ListTitle>상품 리스트</ListTitle>
+            <ProductList>
+              {items
+                .map((item, idx) => (
+                  <Item
+                    item={item}
+                    bookmark={bookmark.filter((i) =>
+                      i.id === item.id ? true : false
+                    )}
+                    key={idx}
+                    handleClick={bookmarkButtonClick}
+                    modalClick={modalClick}
+                  />
+                ))
+                .slice(0, 4)}
+            </ProductList>
+          </ListSection>
+          <ListSection>
+            <ListTitle>북마크 리스트</ListTitle>
+            <ProductList>
+              {bookmark
+                .map((item, idx) => (
+                  <Item
+                    item={item}
+                    bookmark={bookmark.filter((i) => i.id === item.id)}
+                    key={idx}
+                    handleClick={bookmarkButtonClick}
+                    modalClick={modalClick}
+                  />
+                ))
+                .slice(0, 4)}
+            </ProductList>
+          </ListSection>
+        </MainBody>
       </MainContainer>
     </div>
   );

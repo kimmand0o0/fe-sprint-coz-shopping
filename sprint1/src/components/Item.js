@@ -100,44 +100,46 @@ const BookmarkButton = styled.button`
   z-index: 10;
 `;
 
-export default function Item({ item, bookmark, handleClick }) {
+export default function Item({ item, bookmark, handleClick, modalClick }) {
   return (
     <ItemBody key={item.id} className="item">
       <BookmarkButton onClick={(e) => handleClick(e, item)}>
         {bookmark.length ? <BookmarkerOn /> : <BookmarkerOff />}
       </BookmarkButton>
-      {item.type === "Brand" && (
-        <ItemImg>
-          <StyledImg src={item.brand_image_url} alt={item.brand_name} />
-        </ItemImg>
-      )}
-      {item.type !== "Brand" && (
-        <ItemImg>
-          <StyledImg src={item.image_url} alt={item.title} />
-        </ItemImg>
-      )}
-
-      <StyledSection>
-        {item.type === "Brand" && <ItemTitle>{item.brand_name}</ItemTitle>}
-        {item.type === "Brand" && <ItemTitle>관심고객수</ItemTitle>}
-        {item.type !== "Brand" && <ItemTitle>{item.title}</ItemTitle>}
-        {item.type === "Product" && (
-          <ItemDiscount>{item.discountPercentage + "%"}</ItemDiscount>
+      <section onClick={(e) => modalClick(e, item)}>
+        {item.type === "Brand" && (
+          <ItemImg>
+            <StyledImg src={item.brand_image_url} alt={item.brand_name} />
+          </ItemImg>
         )}
-      </StyledSection>
-      {item.type === "Brand" && (
-        <ContentRight>
-          {[item.follower].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-        </ContentRight>
-      )}
-      {item.type === "Product" && (
-        <ContentRight>
-          {[item.price].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
-        </ContentRight>
-      )}
-      {item.type === "Exhibition" && (
-        <ContentLeft>{item.sub_title}</ContentLeft>
-      )}
+        {item.type !== "Brand" && (
+          <ItemImg>
+            <StyledImg src={item.image_url} alt={item.title} />
+          </ItemImg>
+        )}
+
+        <StyledSection>
+          {item.type === "Brand" && <ItemTitle>{item.brand_name}</ItemTitle>}
+          {item.type === "Brand" && <ItemTitle>관심고객수</ItemTitle>}
+          {item.type !== "Brand" && <ItemTitle>{item.title}</ItemTitle>}
+          {item.type === "Product" && (
+            <ItemDiscount>{item.discountPercentage + "%"}</ItemDiscount>
+          )}
+        </StyledSection>
+        {item.type === "Brand" && (
+          <ContentRight>
+            {[item.follower].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+          </ContentRight>
+        )}
+        {item.type === "Product" && (
+          <ContentRight>
+            {[item.price].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+          </ContentRight>
+        )}
+        {item.type === "Exhibition" && (
+          <ContentLeft>{item.sub_title}</ContentLeft>
+        )}
+      </section>
     </ItemBody>
   );
 }
