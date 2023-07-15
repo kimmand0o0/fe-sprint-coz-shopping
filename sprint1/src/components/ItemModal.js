@@ -110,7 +110,11 @@ export default function ItemModal({ item, bookmark, handleClick, modalClose }) {
           <ItemImg src={item.image_url} alt={item.title} />
         )}
         <BookmarkButton onClick={(e) => handleClick(e, item)}>
-          {bookmark.length ? <BookmarkerOn /> : <BookmarkerOff />}
+          {bookmark.filter((i) => i.id === item.id).length !== 0 ? (
+            <BookmarkerOn />
+          ) : (
+            <BookmarkerOff />
+          )}
         </BookmarkButton>
         {item.type === "Brand" && <ModalTitle>{item.brand_name}</ModalTitle>}
         {item.type !== "Brand" && <ModalTitle>{item.title}</ModalTitle>}
