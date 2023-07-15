@@ -7,7 +7,8 @@ const ItemBody = styled.li`
   width: 264px;
   height: 264px;
 
-  padding-right: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
 
   display: flex;
   flex-direction: column;
@@ -81,8 +82,9 @@ const ContentRight = styled.a`
   line-height: 19.36px
 
   font-size: 16px;
-  
-  text-align: right;
+
+  display: flex;
+  justify-content : end;
 `;
 
 const BookmarkButton = styled.button`

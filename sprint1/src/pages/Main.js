@@ -24,16 +24,16 @@ const MainBody = styled.div`
 `;
 
 const ListSection = styled.section`
-  width: 100vw;
-  margin-left: 20vw;
-
-  overflow-y: hidden;
+  width: 80vw;
 `;
 
 const ListTitle = styled.h3`
   font-size: 24px;
   line-height: 29.05px;
   margin: 20px 0px 20px 0px;
+
+  display: flex;
+  align-items: start;
 `;
 
 const ProductList = styled.ul`
@@ -81,18 +81,18 @@ export default function Main() {
   };
 
   useEffect(() => {
-    if (items.length === 0) {
-      axios
-        .get("http://cozshopping.codestates-seb.link/api/v1/products", {
-          params: {
-            count: 4,
-          },
-        })
-        .then((result) => setItems(result.data))
-        .catch(() => {
-          console.log("err");
-        });
-    }
+    // if (items.length === 0) {
+    axios
+      .get("http://cozshopping.codestates-seb.link/api/v1/products", {
+        params: {
+          count: 4,
+        },
+      })
+      .then((result) => setItems(result.data))
+      .catch(() => {
+        console.log("err");
+      });
+    // }
   }, []);
 
   return (
@@ -113,9 +113,7 @@ export default function Main() {
               {items.map((item, idx) => (
                 <Item
                   item={item}
-                  bookmark={bookmark.filter((i) =>
-                    i.id === item.id ? true : false
-                  )}
+                  bookmark={bookmark.filter((i) => i.id === item.id)}
                   key={idx}
                   handleClick={bookmarkButtonClick}
                   modalClick={modalClick}
