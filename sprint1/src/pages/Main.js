@@ -81,7 +81,6 @@ export default function Main() {
   };
 
   useEffect(() => {
-    // if (items.length === 0) {
     axios
       .get("http://cozshopping.codestates-seb.link/api/v1/products", {
         params: {
@@ -89,10 +88,9 @@ export default function Main() {
         },
       })
       .then((result) => setItems(result.data))
-      .catch(() => {
-        console.log("err");
+      .catch((err) => {
+        console.log(err);
       });
-    // }
   }, []);
 
   return (
